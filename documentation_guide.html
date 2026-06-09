@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チーム開発演習 開発・コーディング手順書 (6/10〜6/12)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary);
+            padding-left: 0.75rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Task & Checkbox Styling */
+        .task-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .task-item:hover {
+            background-color: var(--primary-light);
+        }
+
+        .task-item.completed {
+            background-color: var(--success-light);
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-checkbox {
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .task-item.completed .task-checkbox {
+            accent-color: var(--success);
+        }
+
+        .nested-tasks {
+            margin-left: 2rem;
+            border-left: 2px solid var(--border);
+            padding-left: 1rem;
+        }
+
+        /* Code Block Styling */
+        .code-container {
+            position: relative;
+            margin: 1rem 0 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-header {
+            background-color: #1e293b;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+        .copy-btn {
+            background-color: #334155;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary);
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 1.2rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+            font-size: 0.95rem;
+        }
+
+        .alert-important {
+            background-color: var(--danger-light);
+            border-left-color: var(--danger);
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background-color: var(--warning-light);
+            border-left-color: var(--warning);
+            color: #92400e;
+        }
+
+        /* Grid for git setup */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .grid-card {
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+
+        .grid-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>チーム開発演習 開発・コーディング手順書</h1>
+            <p>実装フェーズ (6月10日〜12日) にて、初学者5名がスケジュール通りに完遂するためのガイドライン</p>
+        </header>
+
+        <!-- 1. 開発ロードマップ -->
+        <section class="card">
+            <h2>1. 3日間の開発ロードマップ</h2>
+            <p>限られた時間内で動作可能なシステム（一次開発スコープ）を確実に作り上げるため、以下の順序でタスクをこなしてください。ブラウザ上で進捗をチェックできます。</p>
+            
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 't1')">
+                    <input type="checkbox" class="task-checkbox" id="t1">
+                    <span><strong>【Day 1 (6/10)】環境構築・共通基盤作成・画面モックの表示</strong></span>
+                </li>
+                <div class="nested-tasks">
+                    <li class="task-item" onclick="toggleTask(this, 't1-1')">
+                        <input type="checkbox" class="task-checkbox" id="t1-1">
+                        <span><strong>データベース（DB）の作成</strong>: 最新のテーブル定義に従い、テーブルを構築（マスタデータとして <code>prefectures</code> を先行インサート）。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't1-2')">
+                        <input type="checkbox" class="task-checkbox" id="t1-2">
+                        <span><strong>Entity・Repository の共通作成</strong>: 代表者が <code>entity</code>（手動Getter/Setter）と <code>repository</code> の枠組みを一括作成し、GitにPush。他メンバーはこれをプルして開発開始。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't1-3')">
+                        <input type="checkbox" class="task-checkbox" id="t1-3">
+                        <span><strong>画面モックの表示</strong>: コントローラーからThymeleafを表示し、リンク遷移図通りにモック画面が切り替わる状態を初日中に完成させる。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't1-4')">
+                        <input type="checkbox" class="task-checkbox" id="t1-4">
+                        <span><strong>Gitブランチ運用の開始</strong>: 各自 <code>feature/【担当機能】</code> ブランチを作成して作業。</span>
+                    </li>
+                </div>
+
+                <li class="task-item" onclick="toggleTask(this, 't2')">
+                    <input type="checkbox" class="task-checkbox" id="t2">
+                    <span><strong>【Day 2 (6/11)】コアロジック（空室検索・プラン在庫連動・予約）の実装</strong></span>
+                </li>
+                <div class="nested-tasks">
+                    <li class="task-item" onclick="toggleTask(this, 't2-1')">
+                        <input type="checkbox" class="task-checkbox" id="t2-1">
+                        <span><strong>空室検索ロジックの実装</strong>: 指定した日付範囲で <code>plan_stocks</code> の在庫が足りているプランのみを検索・表示する処理を開発。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't2-2')">
+                        <input type="checkbox" class="task-checkbox" id="t2-2">
+                        <span><strong>予約時の在庫減算処理</strong>: 予約確定時にトランザクションを張り、滞在日数分の <code>plan_stocks</code> の <code>stock</code> を減算するサービスロジックを実装。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't2-3')">
+                        <input type="checkbox" class="task-checkbox" id="t2-3">
+                        <span><strong>一般会員機能の統合</strong>: 新規登録 → ログイン → 検索 → 予約 → 履歴確認の結合テスト。</span>
+                    </li>
+                </div>
+
+                <li class="task-item" onclick="toggleTask(this, 't3')">
+                    <input type="checkbox" class="task-checkbox" id="t3">
+                    <span><strong>【Day 3 (6/12)】管理者機能の完成・代理キャンセル・結合テスト</strong></span>
+                </li>
+                <div class="nested-tasks">
+                    <li class="task-item" onclick="toggleTask(this, 't3-1')">
+                        <input type="checkbox" class="task-checkbox" id="t3-1">
+                        <span><strong>管理者機能（宿・プランのCRUD）の実装</strong>: 宿やプランの追加・編集・アーカイブ処理を完了。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't3-2')">
+                        <input type="checkbox" class="task-checkbox" id="t3-2">
+                        <span><strong>代理キャンセルと在庫復元</strong>: キャンセル時に予約分の <code>plan_stocks</code> を加算（復元）する処理を実装。</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 't3-3')">
+                        <input type="checkbox" class="task-checkbox" id="t3-3">
+                        <span><strong>結合テストの実行</strong>: ドキュメント相互のクロスチェックリストを元に全員でテスト。</span>
+                    </li>
+                </div>
+            </ul>
+        </section>
+
+        <!-- 2. Spring Boot ファイル構成・役割ガイド -->
+        <section class="card">
+            <h2>2. Spring Boot ファイル構成・役割ガイド</h2>
+            <p>本研修のカリキュラムに合わせて、<strong>LombokおよびFormクラスを使用しない</strong>標準的な実装構成で統一します。</p>
+
+            <h3>2.1 プロジェクト全体ファイル構成ツリー & 作成数</h3>
+            <p>一次開発（コア機能）で作成する全ファイル（合計：<strong>Java 25ファイル、HTML 20ファイル、共通設定等</strong>）の完全なディレクトリ構造ツリーです。</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>プロジェクトのファイル配置ツリー</span>
+                </div>
+                <pre>src/main/
+├── java/
+│   └── com/
+│       └── example/
+│           └── teamdev/
+│               ├── entity/              # DB対応クラス (手動Getter/Setter)
+│               │   ├── Admin.java
+│               │   ├── User.java
+│               │   ├── Hotel.java
+│               │   ├── Prefecture.java
+│               │   ├── Plan.java
+│               │   ├── PlanStock.java
+│               │   └── Reservation.java
+│               ├── repository/          # Spring Data JPA
+│               │   ├── AdminRepository.java
+│               │   ├── UserRepository.java
+│               │   ├── HotelRepository.java
+│               │   ├── PrefectureRepository.java
+│               │   ├── PlanRepository.java
+│               │   ├── PlanStockRepository.java
+│               │   └── ReservationRepository.java
+│               ├── service/             # トランザクション処理
+│               │   ├── PlanService.java (初期在庫自動生成用)
+│               │   └── ReservationService.java (予約・キャンセル在庫増減用)
+│               └── controller/          # 画面制御・セッションチェック
+│                   ├── AdminController.java
+│                   ├── AdminHotelController.java
+│                   ├── AdminPlanController.java
+│                   ├── AdminResController.java
+│                   ├── AdminUserController.java
+│                   ├── HotelController.java
+│                   ├── MypageController.java
+│                   ├── ReservationController.java
+│                   └── UserController.java
+└── resources/
+    ├── application.properties           # DB接続設定・ポート設定
+    ├── static/
+    │   └── css/
+    │       └── style.css                # 画面共通スタイルシート
+    └── templates/                       # Thymeleafテンプレート
+        ├── common/
+        │   └── navigation.html          # 共通ヘッダー部品
+        ├── admin/                       # 管理者側画面 (AGxxx)
+        │   ├── login.html               # ログイン画面
+        │   ├── user_list.html           # 会員一覧画面
+        │   ├── hotel_list.html          # 宿一覧画面
+        │   ├── hotel_new.html           # 新規宿登録画面
+        │   ├── hotel_detail.html        # 宿詳細(プラン一覧)画面
+        │   ├── hotel_edit.html          # 宿編集画面
+        │   ├── plan_new.html            # プラン追加画面
+        │   ├── plan_detail.html         # プラン詳細画面
+        │   ├── plan_edit.html           # プラン編集画面
+        │   ├── reservation_list.html    # 予約一覧画面
+        │   └── reservation_detail.html  # 予約詳細画面
+        ├── hotel/                       # 会員側：宿・プラン画面 (UG2xx)
+        │   ├── search.html              # 宿検索一覧画面
+        │   └── detail.html              # プラン一覧(宿詳細)画面
+        ├── reserve/                     # 会員側：予約登録画面 (UG3xx)
+        │   ├── new.html                 # 予約登録入力画面
+        │   └── confirm.html             # 予約内容確認画面
+        └── user/                        # 会員側：ログイン・登録・マイページ (UG1xx)
+            ├── login.html               # 会員ログイン画面
+            ├── register.html            # 会員新規登録画面
+            ├── mypage.html              # マイページ(履歴一覧)画面
+            └── reservation_detail.html  # 会員予約詳細画面</pre>
+            </div>
+
+            <h4>作成ファイル一覧の確認チェックボックス</h4>
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'ft-java')">
+                    <input type="checkbox" class="task-checkbox" id="ft-java">
+                    <span><strong>Javaソースファイル (合計 25ファイル)</strong></span>
+                </li>
+                <div class="nested-tasks">
+                    <li class="task-item" onclick="toggleTask(this, 'ft-java-entity')">
+                        <input type="checkbox" class="task-checkbox" id="ft-java-entity">
+                        <span><strong>Entity層 (7ファイル)</strong>: <code>Admin</code>, <code>User</code>, <code>Hotel</code>, <code>Prefecture</code>, <code>Plan</code>, <code>PlanStock</code>, <code>Reservation</code></span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 'ft-java-repo')">
+                        <input type="checkbox" class="task-checkbox" id="ft-java-repo">
+                        <span><strong>Repository層 (7ファイル)</strong>: 各Entityに対応するRepository 7種</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 'ft-java-service')">
+                        <input type="checkbox" class="task-checkbox" id="ft-java-service">
+                        <span><strong>Service層 (2ファイル)</strong>: 在庫連動用 <code>PlanService</code>, <code>ReservationService</code></span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 'ft-java-controller')">
+                        <input type="checkbox" class="task-checkbox" id="ft-java-controller">
+                        <span><strong>Controller層 (9ファイル)</strong>: 会員用 4種、管理者用 5種</span>
+                    </li>
+                </div>
+
+                <li class="task-item" onclick="toggleTask(this, 'ft-html')">
+                    <input type="checkbox" class="task-checkbox" id="ft-html">
+                    <span><strong>HTML/CSS/プロパティファイル (合計 22ファイル)</strong></span>
+                </li>
+                <div class="nested-tasks">
+                    <li class="task-item" onclick="toggleTask(this, 'ft-html-common')">
+                        <input type="checkbox" class="task-checkbox" id="ft-html-common">
+                        <span><strong>共通・静的ファイル (3ファイル)</strong>: <code>application.properties</code>, <code>style.css</code>, <code>navigation.html</code></span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 'ft-html-user')">
+                        <input type="checkbox" class="task-checkbox" id="ft-html-user">
+                        <span><strong>会員側HTML (8ファイル)</strong>: 会員ログイン・登録・マイページ・履歴詳細・宿検索・プラン詳細・予約入力・最終確認</span>
+                    </li>
+                    <li class="task-item" onclick="toggleTask(this, 'ft-html-admin')">
+                        <input type="checkbox" class="task-checkbox" id="ft-html-admin">
+                        <span><strong>管理側HTML (11ファイル)</strong>: 管理者ログイン・会員一覧・宿一覧・宿登録・宿詳細・宿編集・プラン登録・プラン詳細・プラン編集・予約一覧・予約詳細</span>
+                    </li>
+                </div>
+            </ul>
+
+            <h3>2.2 実装ファイルひな形 (コードコピー可能)</h3>
+
+            <h4>① Entity (PlanStock.java)</h4>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>src/main/java/com/example/teamdev/entity/PlanStock.java</span>
+                    <button class="copy-btn" onclick="copyCode('code-entity')">コピー</button>
+                </div>
+                <pre id="code-entity">package com.example.teamdev.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "plan_stocks")
+public class PlanStock {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "plan_id", nullable = false)
+    private Integer planId;
+
+    @Column(name = "target_date", nullable = false)
+    private LocalDate targetDate;
+
+    @Column(name = "stock", nullable = false)
+    private Integer stock;
+
+    // デフォルトコンストラクタ（JPA用）
+    public PlanStock() {}
+
+    // ゲッターとセッターを手動作成
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public Integer getPlanId() { return planId; }
+    public void setPlanId(Integer planId) { this.planId = planId; }
+
+    public LocalDate getTargetDate() { return targetDate; }
+    public void setTargetDate(LocalDate targetDate) { this.targetDate = targetDate; }
+
+    public Integer getStock() { return stock; }
+    public void setStock(Integer stock) { this.stock = stock; }
+}</pre>
+            </div>
+
+            <h4>② Repository (PlanStockRepository.java)</h4>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>src/main/java/com/example/teamdev/repository/PlanStockRepository.java</span>
+                    <button class="copy-btn" onclick="copyCode('code-repo')">コピー</button>
+                </div>
+                <pre id="code-repo">package com.example.teamdev.repository;
+
+import com.example.teamdev.entity.PlanStock;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.time.LocalDate;
+import java.util.List;
+
+public interface PlanStockRepository extends JpaRepository<PlanStock, Integer> {
+    // 期間中の在庫を取得
+    List<PlanStock> findByPlanIdAndTargetDateBetween(Integer planId, LocalDate start, LocalDate end);
+}</pre>
+            </div>
+
+            <h4>③ Service (ReservationService.java)</h4>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>src/main/java/com/example/teamdev/service/ReservationService.java</span>
+                    <button class="copy-btn" onclick="copyCode('code-service')">コピー</button>
+                </div>
+                <pre id="code-service">package com.example.teamdev.service;
+
+import com.example.teamdev.entity.PlanStock;
+import com.example.teamdev.repository.PlanStockRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
+import java.util.List;
+
+@Service
+public class ReservationService {
+
+    private final PlanStockRepository planStockRepository;
+
+    public ReservationService(PlanStockRepository planStockRepository) {
+        this.planStockRepository = planStockRepository;
+    }
+
+    // 予約実行時に在庫を減らすトランザクション
+    @Transactional
+    public boolean reserveRoom(Integer planId, LocalDate checkin, LocalDate checkout, Integer roomCount) {
+        LocalDate lastNight = checkout.minusDays(1);
+        List<PlanStock> stocks = planStockRepository.findByPlanIdAndTargetDateBetween(planId, checkin, lastNight);
+
+        // 1. 在庫の有無を確認
+        for (PlanStock stock : stocks) {
+            if (stock.getStock() < roomCount) {
+                return false; // 在庫不足
+            }
+        }
+
+        // 2. 在庫の減算を実行
+        for (PlanStock stock : stocks) {
+            stock.setStock(stock.getStock() - roomCount);
+            planStockRepository.save(stock);
+        }
+
+        return true;
+    }
+}</pre>
+            </div>
+
+            <h4>④ Controller (ReservationController.java)</h4>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>src/main/java/com/example/teamdev/controller/ReservationController.java</span>
+                    <button class="copy-btn" onclick="copyCode('code-controller')">コピー</button>
+                </div>
+                <pre id="code-controller">package com.example.teamdev.controller;
+
+import com.example.teamdev.service.ReservationService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.time.LocalDate;
+
+@Controller
+public class ReservationController {
+
+    private final ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
+
+    // フォームクラスを使わず直接 @RequestParam で受け取り、バリデーションを行う
+    @PostMapping("/reservations")
+    public String completeReservation(
+            @RequestParam("plan_id") Integer planId,
+            @RequestParam("checkin_date") String checkinDateStr,
+            @RequestParam("checkout_date") String checkoutDateStr,
+            @RequestParam("room_count") Integer roomCount,
+            Model model) {
+
+        // 簡易バリデーション
+        if (planId == null || checkinDateStr.isEmpty() || checkoutDateStr.isEmpty() || roomCount == null) {
+            model.addAttribute("errorMessage", "必須項目が入力されていません。");
+            return "reserve/new";
+        }
+
+        LocalDate checkin = LocalDate.parse(checkinDateStr);
+        LocalDate checkout = LocalDate.parse(checkoutDateStr);
+
+        boolean success = reservationService.reserveRoom(planId, checkin, checkout, roomCount);
+
+        if (!success) {
+            model.addAttribute("errorMessage", "指定された期間は満室となっております。");
+            return "reserve/new";
+        }
+
+        return "redirect:/mypage";
+    }
+}</pre>
+            </div>
+
+            <h3>2.3 マスタデータと初期在庫生成のロジック仕様</h3>
+            
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'l-pref')">
+                    <input type="checkbox" class="task-checkbox" id="l-pref">
+                    <span><strong>都道府県データ（<code>prefectures</code>）の画面渡し</strong><br>
+                    宿新規登録画面（<code>AdminHotelController.showAddHotelForm</code>）および宿検索画面（<code>HotelController.searchHotels</code>）で都道府県プルダウンを表示するため、DBから全都道府県リストを取得して Model に渡します。</span>
+                </li>
+            </ul>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Controller での都道府県データ取得コード</span>
+                    <button class="copy-btn" onclick="copyCode('code-pref-java')">コピー</button>
+                </div>
+                <pre id="code-pref-java">@GetMapping("/admin/hotels/new")
+public String showAddHotelForm(Model model) {
+    List&lt;Prefecture&gt; prefectures = prefectureRepository.findAll();
+    model.addAttribute("prefectures", prefectures);
+    return "admin/hotel_new";
+}</pre>
+            </div>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Thymeleaf でのプルダウン表示 (HTML)</span>
+                    <button class="copy-btn" onclick="copyCode('code-pref-html')">コピー</button>
+                </div>
+                <pre id="code-pref-html">&lt;select name="prefecture_id" required&gt;
+    &lt;option value=""&gt;選択してください&lt;/option&gt;
+    &lt;option th:each="pref : ${prefectures}" th:value="${pref.id}" th:text="${pref.prefectureName}"&gt;&lt;/option&gt;
+&lt;/select&gt;</pre>
+            </div>
+
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'l-gen-stock')">
+                    <input type="checkbox" class="task-checkbox" id="l-gen-stock">
+                    <span><strong>新規プラン追加時の「180日分の初期在庫（<code>plan_stocks</code>）の自動生成」</strong><br>
+                    新規宿泊プランが登録された際、本日から180日後までの日々の在庫レコードを一括生成するロジックをサービス層に実装します。</span>
+                </li>
+            </ul>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>PlanService 内での登録・在庫自動生成ロジック</span>
+                    <button class="copy-btn" onclick="copyCode('code-gen-stock')">コピー</button>
+                </div>
+                <pre id="code-gen-stock">@Transactional
+public void addPlanAndGenerateStocks(Plan plan, int roomCount) {
+    // 1. プランを保存
+    Plan savedPlan = planRepository.save(plan);
+
+    // 2. 本日から180日後までの在庫レコードを自動生成
+    LocalDate today = LocalDate.now();
+    for (int i = 0; i < 180; i++) {
+        PlanStock stock = new PlanStock();
+        stock.setPlanId(savedPlan.getId());
+        stock.setTargetDate(today.plusDays(i));
+        stock.setStock(roomCount); // 設定された初期部屋数を在庫とする
+        planStockRepository.save(stock);
+    }
+}</pre>
+            </div>
+
+            <h3>2.4 簡易ログインアクセス制御（セッションチェック）の実装方法</h3>
+            
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'l-session-user')">
+                    <input type="checkbox" class="task-checkbox" id="l-session-user">
+                    <span><strong>一般会員画面のアクセス制御</strong><br>
+                    マイページや予約画面等、ログイン必須画面の GET/POST メソッドの先頭でセッション有無を確認します。</span>
+                </li>
+            </ul>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>一般会員用ログインチェック</span>
+                    <button class="copy-btn" onclick="copyCode('code-session-user')">コピー</button>
+                </div>
+                <pre id="code-session-user">@GetMapping("/mypage")
+public String showMypage(HttpSession session) {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+        return "redirect:/login"; // 未ログイン時はログイン画面へ強制リダイレクト
+    }
+    return "user/mypage";
+}</pre>
+            </div>
+
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'l-session-admin')">
+                    <input type="checkbox" class="task-checkbox" id="l-session-admin">
+                    <span><strong>管理者画面のアクセス制御</strong><br>
+                    管理者機能（/admin/...）を一般会員が操作できないよう、厳格に管理者セッションの有無を確認します。</span>
+                </li>
+            </ul>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>管理者用ログインチェック</span>
+                    <button class="copy-btn" onclick="copyCode('code-session-admin')">コピー</button>
+                </div>
+                <pre id="code-session-admin">@GetMapping("/admin/hotels")
+public String listHotels(HttpSession session, Model model) {
+    Admin loginAdmin = (Admin) session.getAttribute("loginAdmin");
+    if (loginAdmin == null) {
+        return "redirect:/admin/login"; // 未ログイン時は管理者ログイン画面へ
+    }
+    return "admin/hotel_list";
+}</pre>
+            </div>
+        </section>
+
+        <!-- 3. 初学者が陥りがちな「5大エラー（Gotchas）」 -->
+        <section class="card">
+            <h2>3. 初学者が陥りがちな「5大エラー（Gotchas）」と対策</h2>
+            <div class="alert alert-important">
+                <strong>警告:</strong> 実装中、エラーで手が止まったらまずここを確認してください！
+            </div>
+            
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'g1')">
+                    <input type="checkbox" class="task-checkbox" id="g1">
+                    <span><strong>1. @Controller と @RestController の取り違え</strong><br>
+                    <small>現象: 画面が表示されず、HTML名（文字列）がそのまま画面に表示される。<br>
+                    対策: Thymeleafを使って画面遷移を行うコントローラーは、必ず <code>@Controller</code> アノテーションを使用します。<code>@RestController</code> はAPI制作用なので使用しないでください。</small></span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'g2')">
+                    <input type="checkbox" class="task-checkbox" id="g2">
+                    <span><strong>2. アノテーション忘れ（Bean登録・JPA）</strong><br>
+                    <small>現象: 起動時に <code>BeanCreationException</code> が起きる、または <code>NullPointerException</code> が発生する。<br>
+                    対策: Serviceクラスには <code>@Service</code>、Repositoryには <code>@Repository</code>、トランザクション処理を行う箇所には <code>@Transactional</code> が付いているか必ず確認してください。</small></span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'g3')">
+                    <input type="checkbox" class="task-checkbox" id="g3">
+                    <span><strong>3. HTMLの date 入力と LocalDate の変換エラー</strong><br>
+                    <small>現象: 日付を送信すると <code>MethodArgumentTypeMismatchException</code> (400 Bad Request) が発生する。<br>
+                    対策: HTMLの <code>&lt;input type="date"&gt;</code> は <code>yyyy-MM-dd</code> 形式の文字列で送信されます。Controller側では <code>String</code> で受け取り <code>LocalDate.parse()</code> を呼ぶか、引数に <code>@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkinDate</code> のようにフォーマット指定を明示してください。</small></span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'g4')">
+                    <input type="checkbox" class="task-checkbox" id="g4">
+                    <span><strong>4. DBカラム名と Entity プロパティ名の不一致</strong><br>
+                    <small>現象: DBアクセス時に <code>SQLGrammarException</code> (カラムが見つかりません) が発生する。<br>
+                    対策: DBカラムが <code>prefecture_id</code> (スネークケース) の場合、Entityの変数名を <code>prefectureId</code> (キャメルケース) とした上で、<code>@Column(name = "prefecture_id")</code> アノテーションを明示してください。</small></span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'g5')">
+                    <input type="checkbox" class="task-checkbox" id="g5">
+                    <span><strong>5. Git のコンフリクト多発</strong><br>
+                    <small>現象: プル・プッシュ時に競合が発生してコードが失われる。<br>
+                    対策: 各メンバーの担当Controller・HTMLを完全に分担（下記4章参照）し、共通ファイル（<code>application.properties</code> や <code>CSS</code>）を触る際は必ず声をかけて、編集後即時プッシュ・マージ・共有を徹底します。</small></span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 4. 役割分担案 -->
+        <section class="card">
+            <h2>4. Gitコンフリクトを防ぐための役割分担案 (5人分)</h2>
+            <p>3日間の短期間でコンフリクトを最小限にしつつ全員がコードを書くための、物理的な担当分割案です。</p>
+
+            <div class="grid">
+                <div class="grid-card">
+                    <h4>メンバーA : データベース・共通基盤・マージ担当</h4>
+                    <p>初期DB構築（SQL実行）、全EntityおよびRepositoryの枠組み作成、全員のコードのマージ作業と不具合解消のサポートを担当。</p>
+                </div>
+                <div class="grid-card">
+                    <h4>メンバーB : 一般会員：認証・マイページ担当</h4>
+                    <p><code>UserController</code>, <code>MypageController</code><br>ログイン (`UG001`)、新規登録 (`UG101`)、マイページ (`UG103`)、予約詳細 (`UG102`) HTML。</p>
+                </div>
+                <div class="grid-card">
+                    <h4>メンバーC : 一般会員：宿検索・予約機能担当</h4>
+                    <p><code>HotelController</code>, <code>ReservationController</code>, <code>ReservationService</code><br>宿検索一覧 (`UG201`)、プラン詳細 (`UG202`)、予約登録 (`UG301`)、予約確認 (`UG302`) HTML。</p>
+                </div>
+                <div class="grid-card">
+                    <h4>メンバーD : 管理者：宿・プランのCRUD管理担当</h4>
+                    <p><code>AdminHotelController</code>, <code>AdminPlanController</code><br>宿一覧 (`AG101`)、宿登録 (`AG102`)、宿詳細 (`AG102-Detail`)、宿編集 (`UC502`)、プラン登録・詳細・編集HTML。</p>
+                </div>
+                <div class="grid-card">
+                    <h4>メンバーE : 管理者：予約管理・会員管理担当</h4>
+                    <p><code>AdminResController</code>, <code>AdminUserController</code><br>会員一覧 (`AG201`)、予約一覧、予約詳細HTML（および代理キャンセル処理）。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. URLマッピング一覧 -->
+        <section class="card">
+            <h2>5. URLマッピング一覧 (完成版)</h2>
+            <p>※テーブル内のチェックボックスを廃止し、見やすさを最優先しました。全画面マッピングに対応しています。</p>
+
+            <li class="task-item" onclick="toggleTask(this, 'url-user')">
+                <input type="checkbox" class="task-checkbox" id="url-user">
+                <span><strong>会員側 URLマッピングチェック</strong></span>
+            </li>
+            <div class="nested-tasks">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>画面ID</th>
+                            <th>HTTP</th>
+                            <th>URLパス</th>
+                            <th>パラメータ</th>
+                            <th>コントローラ名</th>
+                            <th>メソッド名</th>
+                            <th>処理内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>UG001</td>
+                            <td>GET</td>
+                            <td>/login</td>
+                            <td>なし</td>
+                            <td>UserController</td>
+                            <td>showLoginForm</td>
+                            <td>ログイン画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/login</td>
+                            <td>email, password</td>
+                            <td>UserController</td>
+                            <td>login</td>
+                            <td>ログイン処理実行 → /mypage へリダイレクト</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/logout</td>
+                            <td>なし</td>
+                            <td>UserController</td>
+                            <td>logout</td>
+                            <td>ログアウト処理（セッション破棄）</td>
+                        </tr>
+                        <tr>
+                            <td>UG101</td>
+                            <td>GET</td>
+                            <td>/users/add</td>
+                            <td>なし</td>
+                            <td>UserController</td>
+                            <td>showRegistrationForm</td>
+                            <td>新規会員登録画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/users/add</td>
+                            <td>family_name, given_name, email, password, postal_code, address, phone_number, birth_date</td>
+                            <td>UserController</td>
+                            <td>register</td>
+                            <td>会員登録 → 自動ログイン → /mypage</td>
+                        </tr>
+                        <tr>
+                            <td>UG103</td>
+                            <td>GET</td>
+                            <td>/mypage</td>
+                            <td>なし</td>
+                            <td>MypageController</td>
+                            <td>showMypage</td>
+                            <td>マイページ（履歴一覧）の表示</td>
+                        </tr>
+                        <tr>
+                            <td>UG102</td>
+                            <td>GET</td>
+                            <td>/mypage/reservations/{id}</td>
+                            <td>id (パス変数)</td>
+                            <td>MypageController</td>
+                            <td>showReservationDetail</td>
+                            <td>予約詳細画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>UG201</td>
+                            <td>GET</td>
+                            <td>/hotels</td>
+                            <td>keyword, prefecture_id, checkin_date, checkout_date, people_count, room_count</td>
+                            <td>HotelController</td>
+                            <td>searchHotels</td>
+                            <td>宿検索（空室・在庫・定員絞り込み）</td>
+                        </tr>
+                        <tr>
+                            <td>UG202</td>
+                            <td>GET</td>
+                            <td>/hotels/{id}/plans/{pid}</td>
+                            <td>id, pid, checkin_date, checkout_date, people_count, room_count</td>
+                            <td>HotelController</td>
+                            <td>showPlanDetail</td>
+                            <td>プラン詳細表示（合計金額表示）</td>
+                        </tr>
+                        <tr>
+                            <td>UG301</td>
+                            <td>GET</td>
+                            <td>/reservations/new</td>
+                            <td>plan_id, checkin_date, checkout_date, people_count, room_count</td>
+                            <td>ReservationController</td>
+                            <td>showReservationForm</td>
+                            <td>予約登録画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>UG302</td>
+                            <td>POST</td>
+                            <td>/reservations/confirm</td>
+                            <td>plan_id, checkin_date, checkout_date, people_count, room_count</td>
+                            <td>ReservationController</td>
+                            <td>confirmReservation</td>
+                            <td>予約内容確認画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/reservations</td>
+                            <td>plan_id, checkin_date, checkout_date, people_count, room_count</td>
+                            <td>ReservationController</td>
+                            <td>completeReservation</td>
+                            <td>予約確定（レコード挿入 ＋ 在庫減算）</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <li class="task-item" onclick="toggleTask(this, 'url-admin')">
+                <input type="checkbox" class="task-checkbox" id="url-admin">
+                <span><strong>管理側 URLマッピングチェック</strong></span>
+            </li>
+            <div class="nested-tasks">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>画面ID</th>
+                            <th>HTTP</th>
+                            <th>URLパス</th>
+                            <th>パラメータ</th>
+                            <th>コントローラ名</th>
+                            <th>メソッド名</th>
+                            <th>処理内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AG001</td>
+                            <td>GET</td>
+                            <td>/admin/login</td>
+                            <td>なし</td>
+                            <td>AdminController</td>
+                            <td>showLoginForm</td>
+                            <td>管理者ログイン画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/login</td>
+                            <td>login_id, password</td>
+                            <td>AdminController</td>
+                            <td>login</td>
+                            <td>管理者ログイン → /admin/hotels へ</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/logout</td>
+                            <td>なし</td>
+                            <td>AdminController</td>
+                            <td>logout</td>
+                            <td>管理者ログアウト</td>
+                        </tr>
+                        <tr>
+                            <td>AG201</td>
+                            <td>GET</td>
+                            <td>/admin/users</td>
+                            <td>keyword</td>
+                            <td>AdminUserController</td>
+                            <td>listUsers</td>
+                            <td>会員一覧・検索画面 of 表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/users/{id}/archive</td>
+                            <td>id (パス変数)</td>
+                            <td>AdminUserController</td>
+                            <td>archiveUser</td>
+                            <td>会員退会処理（論理削除）</td>
+                        </tr>
+                        <tr>
+                            <td>AG101</td>
+                            <td>GET</td>
+                            <td>/admin/hotels</td>
+                            <td>keyword, prefecture_id</td>
+                            <td>AdminHotelController</td>
+                            <td>listHotels</td>
+                            <td>宿一覧・検索画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>AG102</td>
+                            <td>GET</td>
+                            <td>/admin/hotels/new</td>
+                            <td>なし</td>
+                            <td>AdminHotelController</td>
+                            <td>showAddHotelForm</td>
+                            <td>新規宿登録画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/hotels/new</td>
+                            <td>name, postal_code, address, prefecture_id, phone_number, check_in_time, check_out_time, type_of_accom</td>
+                            <td>AdminHotelController</td>
+                            <td>addHotel</td>
+                            <td>新規宿登録処理</td>
+                        </tr>
+                        <tr>
+                            <td>Detail</td>
+                            <td>GET</td>
+                            <td>/admin/hotels/{id}</td>
+                            <td>id</td>
+                            <td>AdminHotelController</td>
+                            <td>showHotelDetail</td>
+                            <td>宿詳細・宿泊プラン一覧画面</td>
+                        </tr>
+                        <tr>
+                            <td>UC502</td>
+                            <td>GET</td>
+                            <td>/admin/hotels/{id}/edit</td>
+                            <td>id</td>
+                            <td>AdminHotelController</td>
+                            <td>showEditHotelForm</td>
+                            <td>宿情報編集画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/hotels/{id}/edit</td>
+                            <td>id, （宿登録項目一式）</td>
+                            <td>AdminHotelController</td>
+                            <td>editHotel</td>
+                            <td>宿情報更新処理</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/hotels/{id}/archive</td>
+                            <td>id</td>
+                            <td>AdminHotelController</td>
+                            <td>archiveHotel</td>
+                            <td>宿アーカイブ処理</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>GET</td>
+                            <td>/admin/plans/new</td>
+                            <td>hotel_id</td>
+                            <td>AdminPlanController</td>
+                            <td>showAddPlanForm</td>
+                            <td>新規プラン追加画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/plans/new</td>
+                            <td>hotel_id, name, content, tax_exclude_price, tax_include_price, room_count, people_count, is_breakfast</td>
+                            <td>AdminPlanController</td>
+                            <td>addPlan</td>
+                            <td>新規プラン登録 ＋ 在庫レコード自動生成</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>GET</td>
+                            <td>/admin/plans/{id}</td>
+                            <td>id</td>
+                            <td>AdminPlanController</td>
+                            <td>showPlanDetail</td>
+                            <td>プラン詳細画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>GET</td>
+                            <td>/admin/plans/{id}/edit</td>
+                            <td>id</td>
+                            <td>AdminPlanController</td>
+                            <td>showEditPlanForm</td>
+                            <td>プラン編集画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/plans/{id}/edit</td>
+                            <td>id, （プラン登録項目一式）</td>
+                            <td>AdminPlanController</td>
+                            <td>editPlan</td>
+                            <td>プラン更新処理</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/plans/{id}/archive</td>
+                            <td>id</td>
+                            <td>AdminPlanController</td>
+                            <td>archivePlan</td>
+                            <td>プランアーカイブ処理</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>GET</td>
+                            <td>/admin/reservations</td>
+                            <td>keyword, date</td>
+                            <td>AdminResController</td>
+                            <td>listReservations</td>
+                            <td>全予約一覧・検索画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>GET</td>
+                            <td>/admin/reservations/{id}</td>
+                            <td>id</td>
+                            <td>AdminResController</td>
+                            <td>showResDetail</td>
+                            <td>特定の予約詳細画面の表示</td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td>POST</td>
+                            <td>/admin/reservations/{id}/cancel</td>
+                            <td>id</td>
+                            <td>AdminResController</td>
+                            <td>cancelReservation</td>
+                            <td>予約キャンセル処理（代理キャンセル ＋ 在庫復元）</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 6. クロスチェックリスト -->
+        <section class="card">
+            <h2>6. ドキュメント相互のクロスチェックリスト</h2>
+            <ul class="task-list">
+                <li class="task-item" onclick="toggleTask(this, 'c1')">
+                    <input type="checkbox" class="task-checkbox" id="c1">
+                    <span><strong>画面遷移図と画面レイアウトの整合性</strong>: 遷移図にある画面が、画面レイアウトにすべて漏れなく記述され、遷移先と一致しているか。</span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'c2')">
+                    <input type="checkbox" class="task-checkbox" id="c2">
+                    <span><strong>画面レイアウトとURLマッピングの整合性</strong>: 画面レイアウトのボタン・リンク要素が、マッピング表のパス・メソッドと一致しているか。</span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'c3')">
+                    <input type="checkbox" class="task-checkbox" id="c3">
+                    <span><strong>画面レイアウトとテーブル定義の整合性</strong>: 画面レイアウトの入力桁数・選択肢が、テーブル定義のカラム型・サイズと一致しているか。</span>
+                </li>
+                <li class="task-item" onclick="toggleTask(this, 'c4')">
+                    <input type="checkbox" class="task-checkbox" id="c4">
+                    <span><strong>ユースケース記述とプログラム構造の整合性</strong>: ユースケース記述の「基本系列」の手順が、コントローラー・メソッドの処理内容と一致しているか。</span>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // ページ読み込み時にLocalStorageから進捗状態を復元
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach(cb => {
+                const isChecked = localStorage.getItem(cb.id) === 'true';
+                cb.checked = isChecked;
+                if (isChecked) {
+                    cb.closest('.task-item').classList.add('completed');
+                }
+            });
+        });
+
+        // チェックボックスの状態を切り替え＆LocalStorage保存
+        function toggleTask(element, id) {
+            if (event.target.tagName === 'INPUT') {
+                const checked = event.target.checked;
+                localStorage.setItem(id, checked);
+                if (checked) {
+                    element.classList.add('completed');
+                } else {
+                    element.classList.remove('completed');
+                }
+                return;
+            }
+
+            const checkbox = element.querySelector('.task-checkbox');
+            const checked = !checkbox.checked;
+            checkbox.checked = checked;
+            localStorage.setItem(id, checked);
+            
+            if (checked) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+        }
+
+        // コードコピー処理
+        function copyCode(elementId) {
+            const codeText = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector(`[onclick="copyCode('${elementId}')"]`);
+                const originalText = btn.innerText;
+                btn.innerText = 'コピー完了！';
+                btn.style.backgroundColor = 'var(--success)';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
