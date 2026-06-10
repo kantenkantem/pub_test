@@ -1132,3 +1132,55 @@ ControllerとHTMLテンプレートで受け渡す変数・オブジェクト・
 | **AG401** | 会員一覧 | `/admin/users` | 特になし | `users` |
 | **AG402** | 会員詳細 | `/admin/users/{id}` | 特になし | `user` |
 | **AG501** | 予約一覧 | `/admin/reservations` | キャンセル実行: `/admin/reservations/{id}/cancel` (POST) | `reservations` |
+
+---
+
+## 7. Thymeleaf 共通レイアウト (layout.html) の適用方法
+最適化した共通テンプレート [layout.html](file:///c:/Users/grori/Documents/TDE/20260610/layout.html) を使用して、各画面のデザインとヘッダー・フッターを一括統一します。
+
+### 7.1 レイアウトの適用手順
+各個別HTMLファイル（例: `search.html` など）の最上部の `<html>` タグを、以下のように `th:replace` を使って置き換えます。
+
+#### 1. 未ログイン（ログイン前・新規登録等）画面での適用例
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{common/layout :: layout(~{::body}, 'guest')}">
+<body>
+    <!-- ここに画面固有のコンテンツを記述（自動的にカード枠内に配置されます） -->
+    <h2>会員新規登録</h2>
+    <form action="/register" method="post">
+        <!-- フォーム項目 -->
+    </form>
+</body>
+</html>
+```
+
+#### 2. 一般会員ログイン後（宿検索・マイページ・予約等）画面での適用例
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{common/layout :: layout(~{::body}, 'user')}">
+<body>
+    <h2>マイページ（予約履歴）</h2>
+    <!-- 履歴テーブルなど -->
+</body>
+</html>
+```
+
+#### 3. 管理者側（宿管理・予約管理等）画面での適用例
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{common/layout :: layout(~{::body}, 'admin')}">
+<body>
+    <h2>宿一覧（管理用）</h2>
+    <!-- 宿の一覧テーブルなど -->
+</body>
+</html>
+```
+
+### 7.2 特徴とメリット
+- **ヘッダーの出し分け**: 第2引数（`'guest'`, `'user'`, `'admin'`）によって、ヘッダーに表示されるリンクやウェルカムメッセージが自動で切り替わります。
+- **デザインテーマの自動切り替え**: `'admin'` を指定した場合は自動的にダークモード風の「管理者用テーマ」に切り替わり、一般画面との区別が容易になります。
+- **余白とカード枠の自動適用**: 呼び出し元の `<body>` 内の要素は、自動的に中央寄せの `.content-card`（白いボックス枠）に配置されるため、個別画面に余計なスタイル調整用のHTMLを書く必要がなくなります。

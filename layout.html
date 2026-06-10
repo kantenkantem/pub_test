@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- th:fragment="layout(content, userType)" で再利用可能な枠組みにする -->
+<!-- userType: 'user' (一般会員ログイン中), 'admin' (管理者ログイン中), 'guest' (未ログイン) -->
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content, userType)">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${userType == 'admin' ? '宿予約システム Yadoru (管理者モード)' : '宿予約システム Yadoru'}">宿予約システム Yadoru</title>
+    <!-- 共通フォントとCSSの読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css"> <!-- 共通CSSの読み込み -->
+</head>
+
+<body th:class="${userType == 'admin' ? 'admin-theme' : ''}">
+    <!-- 共通ヘッダー -->
+    <header class="layout-header">
+        <a href="/" class="header-logo">
+            <span>🏨</span>
+            <span th:text="${userType == 'admin' ? 'Yadoru 管理コンソール' : '宿予約 Yadoru'}">宿予約 Yadoru</span>
+        </a>
+
+        <!-- ナビゲーションメニュー（ユーザータイプによる出し分け） -->
+        <nav class="layout-nav">
+            <!-- 1. 未ログインゲスト用ナビ -->
+            <th:block th:if="${userType == 'guest'}">
+                <a href="/accommodations">宿を探す</a>
+                <a href="/login">ログイン</a>
+                <a href="/register">新規登録</a>
+                <a href="/admin/login" style="font-size: 0.8rem; border-left: 1px solid var(--border-color); padding-left: 1rem;">管理者ログイン</a>
+            </th:block>
+
+            <!-- 2. 一般ユーザーログイン中ナビ -->
+            <th:block th:if="${userType == 'user'}">
+                <span th:if="${session.loginUser != null}" style="font-size: 0.85rem; color: var(--text-muted); margin-right: 0.5rem;">
+                    👤 ようこそ、<strong th:text="${session.loginUser.familyName + ' ' + session.loginUser.givenName}">ゲスト</strong> 様
+                </span>
+                <a href="/accommodations">宿検索</a>
+                <a href="/mypage">マイページ</a>
+                <a href="/logout" class="logout-link">ログアウト</a>
+            </th:block>
+
+            <!-- 3. 管理者（従業員）ログイン中ナビ -->
+            <th:block th:if="${userType == 'admin'}">
+                <span th:if="${session.loginAdmin != null}" style="font-size: 0.85rem; color: var(--text-muted); margin-right: 0.5rem;">
+                    🛠️ 担当: <strong th:text="${session.loginAdmin.familyName + ' ' + session.loginAdmin.givenName}">管理者</strong>
+                </span>
+                <a href="/admin/hotels">宿管理</a>
+                <a href="/admin/reservations">予約照会</a>
+                <a href="/admin/users">会員管理</a>
+                <a href="/admin/logout" class="logout-link">ログアウト</a>
+            </th:block>
+        </nav>
+    </header>
+
+    <!-- 各画面のコンテンツ差し込み領域 -->
+    <main class="layout-main">
+        <div class="content-card">
+            <!-- 呼び出し元HTMLのbodyタグ内身に置き換わります -->
+            <div th:replace="${content}"></div>
+        </div>
+    </main>
+
+    <!-- 共通フッター -->
+    <footer class="layout-footer">
+        <p>&copy; 2026 宿予約システム Yadoru. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
