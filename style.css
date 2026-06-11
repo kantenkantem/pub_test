@@ -1,0 +1,125 @@
+/* 宿予約システム Yadoru 共通スタイルシート */
+
+/* レイアウト共通デザインシステム */
+:root {
+    --primary: #4f46e5;       /* 一般向けメインカラー（インディゴ） */
+    --primary-hover: #4338ca;
+    --bg-header: #ffffff;
+    --bg-main: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+}
+
+/* 管理者モード時は配色テーマを切り替える */
+.admin-theme {
+    --primary: #38bdf8;       /* 管理者向けアクセントカラー（ライトブルー） */
+    --primary-hover: #0ea5e9;
+    --bg-header: #1e293b;     /* ダークなヘッダー */
+    --bg-main: #0f172a;       /* ダークな背景 */
+    --text-main: #f8fafc;     /* ライトなテキスト */
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --card-bg: #1e293b;
+}
+
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.layout-header {
+    background-color: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.header-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-logo:hover {
+    opacity: 0.9;
+}
+
+.layout-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.layout-nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.layout-nav a:hover {
+    color: var(--primary);
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.admin-theme .layout-nav a:hover {
+    color: var(--primary);
+    background-color: rgba(56, 189, 248, 0.08);
+}
+
+.layout-nav a.logout-link {
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.layout-nav a.logout-link:hover {
+    background-color: rgba(239, 68, 68, 0.05);
+    color: #dc2626;
+}
+
+.layout-main {
+    flex: 1;
+    padding: 2.5rem 2rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.layout-footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-muted);
+    background-color: var(--bg-header);
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* ユーティリティカード（子画面で共通利用可能） */
+.content-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
